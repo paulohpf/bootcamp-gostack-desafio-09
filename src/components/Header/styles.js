@@ -8,4 +8,36 @@ export const Container = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 16px 30px;
+
+  .nav {
+    display: flex;
+  }
+`;
+
+export const NavLinks = styled.ul`
+  display: flex;
+  border-left: 1px solid #ddd;
+  margin: 0 15px;
+  padding: 0 15px;
+
+  li {
+    padding: 0 15px;
+
+    > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+  }
+`;
+
+export const NavLink = styled(Link)`
+  font-size: 15px;
+  font-weight: bold;
+  color: #999999;
+
+  &:hover {
+    color: #444444;
+  }
 `;
