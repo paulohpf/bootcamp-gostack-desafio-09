@@ -1,38 +1,53 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import logo from '../../assets/Images/LogoHorizontal.svg';
 
-import { Container, NavLinks, NavLink } from './styles';
+import { Container, Content, Profile, NavLinks, NavLink } from './styles';
 
 export default function Header() {
+  const profile = useSelector(state => state.user.profile);
+
   return (
     <Container>
-      <div className="nav">
-        <img src={logo} alt="Gympoint" />
+      <Content>
+        <nav>
+          <img src={logo} alt="Gympoint" />
 
-        <NavLinks>
-          <li>
+          <NavLinks>
+            <li>
+              <div>
+                <NavLink to="">Alunos</NavLink>
+              </div>
+            </li>
+            <li>
+              <div>
+                <NavLink to="">Planos</NavLink>
+              </div>
+            </li>
+            <li>
+              <div>
+                <NavLink to="">Matriculas</NavLink>
+              </div>
+            </li>
+            <li>
+              <div>
+                <NavLink to="">Pedidos de Auxílio</NavLink>
+              </div>
+            </li>
+          </NavLinks>
+        </nav>
+
+        <aside>
+          <Profile>
             <div>
-              <NavLink to="">Alunos</NavLink>
+              <strong>{profile.name}</strong>
+              <Link to="/">sair do sistema</Link>
             </div>
-          </li>
-          <li>
-            <div>
-              <NavLink to="">Planos</NavLink>
-            </div>
-          </li>
-          <li>
-            <div>
-              <NavLink to="">Matriculas</NavLink>
-            </div>
-          </li>
-          <li>
-            <div>
-              <NavLink to="">Pedidos de Auxílio</NavLink>
-            </div>
-          </li>
-        </NavLinks>
-      </div>
+          </Profile>
+        </aside>
+      </Content>
     </Container>
   );
 }
