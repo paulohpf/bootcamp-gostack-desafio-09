@@ -9,6 +9,10 @@ export const Container = styled.header`
   align-items: center;
   padding: 16px 30px;
 
+  img {
+    max-width: 135px;
+  }
+
   .nav {
     display: flex;
   }
