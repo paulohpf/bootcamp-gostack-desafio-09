@@ -80,7 +80,9 @@ export const Profile = styled.div`
       color: #666666;
     }
 
-    a {
+    button {
+      background: none;
+      border: none;
       display: block;
       margin-top: 2px;
       font-size: 12px;

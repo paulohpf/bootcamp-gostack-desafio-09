@@ -40,4 +40,8 @@ ul {
 button {
   cursor: pointer;
 }
+
+h2 {
+  color: #444444;
+}
 `;
