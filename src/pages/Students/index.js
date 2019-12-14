@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { debounce } from 'lodash';
+import { AiOutlinePlus } from 'react-icons/ai';
 import api from '~/services/api';
+
 
 import { Container, List } from './styles';
 
@@ -35,7 +37,10 @@ export default function Students() {
         <h2>Gerenciando Alunos</h2>
 
         <div>
-          <button type="button">Cadastrar</button>
+          <button type="button">
+            <AiOutlinePlus size={16} />
+            Cadastrar
+          </button>
           <input
             type="text"
             placeholder="Buscar aluno"
@@ -67,7 +72,7 @@ export default function Students() {
                 <td>{student.name}</td>
                 <td>{student.email}</td>
                 <td>{student.age}</td>
-                <td>
+                <td className="actions">
                   <Link className="edit" to={`/student/edit/${student.id}`}>
                     editar
                   </Link>

@@ -16,34 +16,6 @@ export const Container = styled.div`
       display: flex;
       vertical-align: center;
       align-items: center;
-
-      button {
-        display: flex;
-        vertical-align: center;
-        height: 36px;
-        border: 0;
-        border-radius: 4px;
-        color: #fff;
-        margin-right: 15px;
-        padding: 0 15px;
-        font-weight: bold;
-        background: #ee4d64;
-
-        svg {
-          margin-right: 5px;
-        }
-      }
-
-      input {
-        height: 36px;
-        padding: 0 15px;
-        border-radius: 4px;
-        border: 1px solid #dddddd;
-
-        ::placeholder {
-          color: #999999;
-        }
-      }
     }
   }
 `;
@@ -78,13 +50,9 @@ export const List = styled.div`
         }
       }
 
-      .edit {
+      .answer {
         margin-right: 8px;
         color: #4d85ee;
-      }
-
-      .delete {
-        color: #de3b3b;
       }
     }
   }
