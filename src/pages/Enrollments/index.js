@@ -5,9 +5,8 @@ import ptBrLocale from 'date-fns/locale/pt-BR';
 import { Link } from 'react-router-dom';
 
 import { debounce } from 'lodash';
-import { AiOutlinePlus } from 'react-icons/ai';
+import { FiPlus } from 'react-icons/fi';
 import api from '~/services/api';
-
 
 import { Container, List } from './styles';
 
@@ -34,10 +33,10 @@ export default function Enrollments() {
         <h2>Gerenciando matrículas</h2>
 
         <div>
-          <button type="button">
-            <AiOutlinePlus size={16} />
+          <Link to="/enrolment/add">
+            <FiPlus size={16} />
             Cadastrar
-          </button>
+          </Link>
         </div>
       </header>
 

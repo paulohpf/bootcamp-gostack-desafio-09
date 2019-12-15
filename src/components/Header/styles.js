@@ -60,6 +60,7 @@ export const NavLink = styled(Link)`
   font-size: 15px;
   font-weight: bold;
   color: #999999;
+  text-transform: uppercase
 
   &:hover {
     color: #444444;

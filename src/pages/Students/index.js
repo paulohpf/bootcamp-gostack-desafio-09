@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { debounce } from 'lodash';
-import { AiOutlinePlus } from 'react-icons/ai';
-import api from '~/services/api';
 
+import { FiPlus } from 'react-icons/fi';
+import api from '~/services/api';
 
 import { Container, List } from './styles';
 
@@ -15,7 +15,9 @@ const debouncedGetStudents = debounce(async (setStudents, searchText) => {
   setStudents(response.data);
 }, 300);
 
-export default function Students() {
+export default function Students(props) {
+  console.tron.log(props);
+
   const [students, setStudents] = useState([]);
   const [searchText, setSearchText] = useState('');
 
@@ -37,10 +39,10 @@ export default function Students() {
         <h2>Gerenciando Alunos</h2>
 
         <div>
-          <button type="button">
-            <AiOutlinePlus size={16} />
+          <Link to="/student/add">
+            <FiPlus size={16} />
             Cadastrar
-          </button>
+          </Link>
           <input
             type="text"
             placeholder="Buscar aluno"

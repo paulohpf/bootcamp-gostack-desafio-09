@@ -24,22 +24,22 @@ export default function Header() {
           <NavLinks>
             <li>
               <div>
-                <NavLink to="students">Alunos</NavLink>
+                <NavLink to="/students">Alunos</NavLink>
               </div>
             </li>
             <li>
               <div>
-                <NavLink to="plans">Planos</NavLink>
+                <NavLink to="/plans">Planos</NavLink>
               </div>
             </li>
             <li>
               <div>
-                <NavLink to="enrollments">Matriculas</NavLink>
+                <NavLink to="/enrollments">Matriculas</NavLink>
               </div>
             </li>
             <li>
               <div>
-                <NavLink to="supports">Pedidos de Auxílio</NavLink>
+                <NavLink to="/supports">Pedidos de Auxílio</NavLink>
               </div>
             </li>
           </NavLinks>

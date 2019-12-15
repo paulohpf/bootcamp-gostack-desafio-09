@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Container = styled.div`
   max-width: 1200px;
@@ -17,9 +18,10 @@ export const Container = styled.div`
       vertical-align: center;
       align-items: center;
 
-      button {
+      a {
         display: flex;
-        vertical-align: center;
+        align-items: center;
+        justify-content: center;
         height: 36px;
         border: 0;
         border-radius: 4px;
@@ -28,6 +30,10 @@ export const Container = styled.div`
         padding: 0 15px;
         font-weight: bold;
         background: #ee4d64;
+
+        :hover {
+          background: ${darken(0.03, '#ee4d64')};
+        }
 
         svg {
           margin-right: 5px;

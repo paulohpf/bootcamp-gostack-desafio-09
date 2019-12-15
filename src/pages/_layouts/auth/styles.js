@@ -32,19 +32,6 @@ export const Content = styled.div`
       color: #444444;
       text-transform: uppercase;
 
-      input {
-        width: 100%;
-        border: 1px solid #dddddd;
-        border-radius: 4px;
-        height: 45px;
-        padding: 0 15px;
-        margin: 10px 0;
-
-        &::placeholder {
-          color: #999999;
-        }
-      }
-
       span {
         color: #de3b3b;
         align-self: flex-start;
