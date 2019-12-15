@@ -11,35 +11,31 @@ import api from '~/services/api';
 
 import { Container, EditForm } from './styles';
 
-export default function StudentEdit({ match, history }) {
+export default function PlanEdit({ match, history }) {
   const schema = Yup.object().shape({
-    name: Yup.string().required('O nome é obrigatório'),
-    email: Yup.string()
-      .email('Insira um email válido')
-      .required('O e-mail é obrigatório'),
-    age: Yup.number()
-      .required('A idade é obrigatória')
-      .typeError('A idade deve ser um número'),
-    weight: Yup.number()
-      .required('O peso é obrigatório')
-      .typeError('O peso deve ser um número'),
-    height: Yup.string().required('A altura é obrigatória'),
+    title: Yup.string().required('O Titulo é obrigatório'),
+    duration: Yup.number()
+      .required('A duração é obrigatória')
+      .typeError('A duração deve ser um número'),
+    mensalPrice: Yup.number()
+      .required('O preço mensal é obrigatório')
+      .typeError('O preço mensal deve ser um número'),
   });
 
   const { params } = match;
   const { push } = history;
 
-  const [student, setStudent] = useState({});
+  const [plan, setPlan] = useState({});
 
   useEffect(() => {
     if (params.id) {
-      const getStudents = async () => {
-        const response = await api.get(`student/${params.id}`);
+      const getPlans = async () => {
+        const response = await api.get(`plan/${params.id}`);
 
-        setStudent(response.data);
+        setPlan(response.data);
       };
 
-      getStudents();
+      getPlans();
     }
   }, [params.id]);
 
@@ -69,10 +65,10 @@ export default function StudentEdit({ match, history }) {
   return (
     <Container>
       <header>
-        <h2>{params.id ? 'Edição de aluno' : 'Cadastro de aluno'}</h2>
+        <h2>{params.id ? 'Edição de plano' : 'Cadastro de plano'}</h2>
 
         <div>
-          <Link to="/students">
+          <Link to="/plans">
             <MdKeyboardArrowLeft size={16} />
             Voltar
           </Link>
@@ -84,30 +80,26 @@ export default function StudentEdit({ match, history }) {
 
       <EditForm
         id="form"
-        initialData={student}
+        initialData={plan}
         schema={schema}
         onSubmit={handleSubmit}
       >
-        <span htmlFor="name">
-          NOME COMPLETO
-          <Input name="name" placeholder="John Doe" />
-        </span>
-        <span htmlFor="email">
-          ENDEREÇO DE E-MAIL
-          <Input name="email" placeholder="exemplo@email.com" />
+        <span htmlFor="title">
+          TÍTULO DO PLANO
+          <Input name="title" />
         </span>
         <div>
-          <span htmlFor="age">
-            IDADE
-            <Input name="age" />
+          <span htmlFor="duration">
+            DURAÇÃO (em meses)
+            <Input name="duration" />
           </span>
-          <span htmlFor="weight">
-            PESO (em kg)
-            <Input name="weight" />
+          <span htmlFor="mensalPrice">
+            PREÇO MENSAL
+            <Input name="mensalPrice" />
           </span>
-          <span htmlFor="height">
-            ALTURA
-            <Input name="height" />
+          <span htmlFor="totalPrice">
+            PREÇO TOTAL
+            <Input name="totalPrice" disabled />
           </span>
         </div>
       </EditForm>
@@ -115,11 +107,11 @@ export default function StudentEdit({ match, history }) {
   );
 }
 
-StudentEdit.defaultProps = {
+PlanEdit.defaultProps = {
   match: {},
 };
 
-StudentEdit.propTypes = {
+PlanEdit.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,
