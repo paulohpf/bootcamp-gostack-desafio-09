@@ -11,6 +11,8 @@ import Plans from '~/pages/Plans';
 import PlanEdit from '~/pages/PlanEdit';
 
 import Enrollments from '~/pages/Enrollments';
+import EnrollmentEdit from '~/pages/EnrollmentEdit';
+
 import Supports from '~/pages/Supports';
 
 export default function Routes() {
@@ -27,6 +29,14 @@ export default function Routes() {
       <Route path="/plan/add" component={PlanEdit} isPrivate />
 
       <Route path="/enrollments" exact component={Enrollments} isPrivate />
+      <Route
+        path="/enrollment/add"
+        exact
+        component={EnrollmentEdit}
+        isPrivate
+      />
+      <Route path="/enrollment/:id" component={EnrollmentEdit} isPrivate />
+
       <Route path="/supports" exact component={Supports} isPrivate />
     </Switch>
   );

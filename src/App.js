@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 
 import GlobalStyle from './styles/global';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import './config/ReactotronConfig';
 import Routes from './routes';

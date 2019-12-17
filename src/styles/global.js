@@ -29,13 +29,15 @@ body, input, button {
   font: 14px 'Roboto', sans-serif
 }
 
-input {
+input, select {
         width: 100%;
         border: 1px solid #dddddd;
         border-radius: 4px;
         height: 45px;
         padding: 0 15px;
         margin: 10px 0;
+
+
 
         &::placeholder {
           color: #999999;

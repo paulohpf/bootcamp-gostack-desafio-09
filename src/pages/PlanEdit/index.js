@@ -17,7 +17,7 @@ export default function PlanEdit({ match, history }) {
     duration: Yup.number()
       .required('A duração é obrigatória')
       .typeError('A duração deve ser um número'),
-    mensalPrice: Yup.number()
+    price: Yup.number()
       .required('O preço mensal é obrigatório')
       .typeError('O preço mensal deve ser um número'),
   });
@@ -27,12 +27,21 @@ export default function PlanEdit({ match, history }) {
 
   const [plan, setPlan] = useState({});
 
+  const [totalPrice, setTotalPrice] = useState('');
+  const [price, setPrice] = useState('');
+  const [duration, setDuration] = useState('');
+
   useEffect(() => {
     if (params.id) {
       const getPlans = async () => {
-        const response = await api.get(`plan/${params.id}`);
+        const response = await api.get(`plan/${params.id}`).then(({ data }) => {
+          setPrice(data.price);
+          setDuration(data.duration);
+          setTotalPrice(data.price * data.duration);
+          return data;
+        });
 
-        setPlan(response.data);
+        setPlan(response);
       };
 
       getPlans();
@@ -42,24 +51,34 @@ export default function PlanEdit({ match, history }) {
   const handleSubmit = data => {
     if (params.id) {
       api
-        .put(`students`, { id: params.id, ...data })
+        .put(`plans`, { id: params.id, ...data })
         .then(() => {
           toast.success('Salvo com sucesso');
-          push('/students');
+          push('/plans');
         })
         .catch(() => {
           toast.error('Ocorreu um erro');
         });
     } else {
       api
-        .post(`students`, { ...data })
+        .post(`plans`, { ...data })
         .then(() => {
-          push('/students');
+          push('/plans');
         })
         .catch(() => {
           toast.error('Ocorreu um erro');
         });
     }
+  };
+
+  const handleChangeDuration = value => {
+    setDuration(value);
+    setTotalPrice(price * value);
+  };
+
+  const handleChangePrice = value => {
+    setPrice(value);
+    setTotalPrice(value * duration);
   };
 
   return (
@@ -91,15 +110,23 @@ export default function PlanEdit({ match, history }) {
         <div>
           <span htmlFor="duration">
             DURAÇÃO (em meses)
-            <Input name="duration" />
+            <Input
+              name="duration"
+              value={duration}
+              onChange={event => handleChangeDuration(event.target.value)}
+            />
           </span>
-          <span htmlFor="mensalPrice">
+          <span htmlFor="price">
             PREÇO MENSAL
-            <Input name="mensalPrice" />
+            <Input
+              name="price"
+              value={price}
+              onChange={event => handleChangePrice(event.target.value)}
+            />
           </span>
-          <span htmlFor="totalPrice">
+          <span>
             PREÇO TOTAL
-            <Input name="totalPrice" disabled />
+            <Input name="totalprice" value={totalPrice} disabled />
           </span>
         </div>
       </EditForm>

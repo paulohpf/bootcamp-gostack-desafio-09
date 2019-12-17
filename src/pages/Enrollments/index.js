@@ -33,7 +33,7 @@ export default function Enrollments() {
         <h2>Gerenciando matrículas</h2>
 
         <div>
-          <Link to="/enrolment/add">
+          <Link to="/enrollment/add">
             <FiPlus size={16} />
             Cadastrar
           </Link>
