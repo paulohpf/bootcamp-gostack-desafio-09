@@ -7,7 +7,7 @@ import { Input, Select } from '@rocketseat/unform';
 
 import { MdKeyboardArrowLeft, MdCheck } from 'react-icons/md';
 import { toast } from 'react-toastify';
-import { format, addMonths } from 'date-fns';
+import { format, addMonths, differenceInCalendarMonths } from 'date-fns';
 import DatePicker from '~/components/DatePicker';
 import api from '~/services/api';
 
@@ -30,6 +30,8 @@ export default function EnrollmentEdit({ match, history }) {
   const [enrollment, setEnrollment] = useState({
     start_date: new Date(),
   });
+
+  const [loading, setLoading] = useState(true);
   const [studentOptions, setStudentOptions] = useState([]);
   const [planOptions, setPlanOptions] = useState([]);
   const [totalPrice, setTotalPrice] = useState('');
@@ -39,7 +41,11 @@ export default function EnrollmentEdit({ match, history }) {
 
   // Campos Aluno/Plano
   useEffect(() => {
-    const getStudents = async () => {
+    const getData = async () => {
+      const toastId = 'getData';
+
+      toast.info('Aguarde', { toastId, autoClose: false });
+
       const [students, plans] = await Promise.all([
         api.get(`students`),
         api.get(`plans`),
@@ -67,10 +73,31 @@ export default function EnrollmentEdit({ match, history }) {
       );
 
       setPlanOptions(_planOptions);
+
+      if (params.id) {
+        const enroll = await api.get(`enroll/${params.id}`);
+
+        const { data } = enroll;
+
+        setStartDate(new Date(data.start_date));
+        data.start_date = new Date(data.start_date);
+
+        setEndDate(format(new Date(data.end_date), 'dd/MM/yyyy'));
+
+        setTotalPrice(
+          differenceInCalendarMonths(new Date(data.end_date), data.start_date) *
+            data.price
+        );
+
+        setEnrollment(data);
+      }
+
+      setLoading(false);
+      toast.dismiss(toastId);
     };
 
-    getStudents();
-  }, []);
+    getData();
+  }, [params]);
 
   const handleSubmit = data => {
     console.tron.log(data);
@@ -108,6 +135,8 @@ export default function EnrollmentEdit({ match, history }) {
     setEndDate(format(addMonths(value, planDuration), 'dd/MM/yyyy'));
   };
 
+  if (loading) return null;
+
   return (
     <Container>
       <header>
@@ -128,6 +157,7 @@ export default function EnrollmentEdit({ match, history }) {
         id="form"
         initialData={enrollment}
         schema={schema}
+        context
         onSubmit={handleSubmit}
       >
         <span htmlFor="student_id">
@@ -158,11 +188,11 @@ export default function EnrollmentEdit({ match, history }) {
           </span>
           <span htmlFor="end_date">
             DATA DE TÉRMINO
-            <Input name="end_date" value={endDate} disabled />
+            <input name="end_date" value={endDate} disabled />
           </span>
           <span htmlFor="totalPrice">
             VALOR FINAL
-            <Input name="totalPrice" value={totalPrice} disabled />
+            <input name="totalPrice" value={totalPrice} disabled />
           </span>
         </div>
       </EditForm>

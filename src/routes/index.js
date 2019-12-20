@@ -35,7 +35,7 @@ export default function Routes() {
         component={EnrollmentEdit}
         isPrivate
       />
-      <Route path="/enrollment/:id" component={EnrollmentEdit} isPrivate />
+      <Route path="/enrollment/edit/:id" component={EnrollmentEdit} isPrivate />
 
       <Route path="/supports" exact component={Supports} isPrivate />
     </Switch>

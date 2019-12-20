@@ -79,7 +79,7 @@ export default function Enrollments() {
                 </td>
                 <td>{plan.active ? 'Ativo' : 'Não ativo'}</td>
                 <td className="actions">
-                  <Link className="edit" to={`/plan/edit/${plan.id}`}>
+                  <Link className="edit" to={`/enrollment/edit/${plan.id}`}>
                     editar
                   </Link>
                   <Link className="delete" to="/#">
