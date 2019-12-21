@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 
-import { Input, Select } from '@rocketseat/unform';
+import { Select } from '@rocketseat/unform';
 
 import { MdKeyboardArrowLeft, MdCheck } from 'react-icons/md';
 import { toast } from 'react-toastify';
-import { format, addMonths, differenceInCalendarMonths } from 'date-fns';
+import { format, addMonths } from 'date-fns';
 import DatePicker from '~/components/DatePicker';
 import api from '~/services/api';
 
@@ -84,10 +84,9 @@ export default function EnrollmentEdit({ match, history }) {
 
         setEndDate(format(new Date(data.end_date), 'dd/MM/yyyy'));
 
-        setTotalPrice(
-          differenceInCalendarMonths(new Date(data.end_date), data.start_date) *
-            data.price
-        );
+        setPlanDuration(data.duration);
+
+        setTotalPrice(data.price);
 
         setEnrollment(data);
       }
@@ -125,8 +124,11 @@ export default function EnrollmentEdit({ match, history }) {
 
   const onSelectPlan = value => {
     const { duration, price } = planOptions[value - 1];
-    setTotalPrice(duration * price);
+
     setPlanDuration(duration);
+    
+    setTotalPrice(duration * price);
+    
     setEndDate(format(addMonths(startDate, duration), 'dd/MM/yyyy'));
   };
 
