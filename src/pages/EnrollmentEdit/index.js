@@ -84,7 +84,11 @@ export default function EnrollmentEdit({ match, history }) {
 
         setEndDate(format(new Date(data.end_date), 'dd/MM/yyyy'));
 
-        setPlanDuration(data.duration);
+        if (data.plan) {
+          setPlanDuration(data.plan.duration);
+        } else {
+          setPlanDuration(0);
+        }
 
         setTotalPrice(data.price);
 
@@ -126,9 +130,9 @@ export default function EnrollmentEdit({ match, history }) {
     const { duration, price } = planOptions[value - 1];
 
     setPlanDuration(duration);
-    
+
     setTotalPrice(duration * price);
-    
+
     setEndDate(format(addMonths(startDate, duration), 'dd/MM/yyyy'));
   };
 

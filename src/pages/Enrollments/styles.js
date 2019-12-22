@@ -58,6 +58,7 @@ export const List = styled.div`
   table {
     width: 100%;
     text-align: left;
+    padding: 0 16px;
     border-radius: 4px 4px 0 0;
     border-collapse: separate;
     border-spacing: 0;
@@ -67,7 +68,7 @@ export const List = styled.div`
       th {
         color: #444444;
         text-align: left;
-        padding: 16px 16px;
+        padding: 16px 0;
         overflow-wrap: break-word;
         text-transform: uppercase;
       }
@@ -75,12 +76,18 @@ export const List = styled.div`
       td {
         color: #666666;
         text-align: left;
-        padding: 16px 16px;
+        padding: 16px 0;
         overflow-wrap: break-word;
 
         &.actions {
           width: 40px;
           text-align: right;
+        }
+      }
+
+      &:not(:last-child) {
+        td {
+          border-bottom: 1px solid #eeeeee;
         }
       }
 
