@@ -80,8 +80,11 @@ export const List = styled.div`
         overflow-wrap: break-word;
 
         &.actions {
-          width: 40px;
-          text-align: right;
+          div {
+            width: 30px;
+            text-align: right;
+            display: flex;
+          }
         }
       }
 
@@ -97,6 +100,8 @@ export const List = styled.div`
       }
 
       .delete {
+        border: 0;
+        background: none;
         color: #de3b3b;
       }
     }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import { format } from 'date-fns';
 import ptBrLocale from 'date-fns/locale/pt-BR';
 
@@ -66,7 +67,7 @@ export default function Enrollments() {
             {enrollments.map(plan => (
               <tr key={plan.id}>
                 <td>{plan.student.name}</td>
-                <td>{plan.plan.title}</td>
+                <td>{plan.plan ? plan.plan.title : ''}</td>
                 <td>
                   {format(new Date(plan.start_date), "dd 'de' MMMM 'de' yyyy", {
                     locale: ptBrLocale,
@@ -94,3 +95,7 @@ export default function Enrollments() {
     </Container>
   );
 }
+
+Enrollments.defaultProps = {
+  match: {},
+};

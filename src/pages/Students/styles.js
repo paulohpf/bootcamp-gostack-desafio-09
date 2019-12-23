@@ -92,7 +92,6 @@ export const List = styled.div`
       }
 
       .edit {
-        margin-right: 8px;
         color: #4d85ee;
       }
 

@@ -78,9 +78,9 @@ export default function Students(props) {
                   <Link className="edit" to={`/student/edit/${student.id}`}>
                     editar
                   </Link>
-                  <Link className="delete" to="/#">
+                  {/* <Link className="delete" to="/#">
                     apagar
-                  </Link>
+                  </Link> */}
                 </td>
               </tr>
             ))}
