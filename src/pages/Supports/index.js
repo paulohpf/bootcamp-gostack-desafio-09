@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
+import { MdNavigateNext, MdNavigateBefore } from 'react-icons/md';
 import api from '~/services/api';
 
-import { Container, List } from './styles';
+import { Container, List, Pagination } from './styles';
 import ModalAnswer from './ModalAnswer/index';
 
 export default function Supports() {
+  const [data, setData] = useState({});
   const [supports, setSupports] = useState([]);
+  const [page, setPage] = useState(1);
 
   const [supportId, setSupportId] = useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -14,7 +17,16 @@ export default function Supports() {
   const getData = async () => {
     const response = await api.get('help-orders/notanswered');
 
-    setSupports(response.data);
+    const { rows: supportRows, ...rest } = response.data;
+
+    setData(rest);
+    setSupports(supportRows);
+  };
+
+  const handleChangePage = value => {
+    if (value >= 1) {
+      setPage(value);
+    }
   };
 
   const editAnswer = async ({ id = null, refresh = false }) => {
@@ -71,6 +83,29 @@ export default function Supports() {
           </tbody>
         </table>
       </List>
+      <Pagination>
+        <button
+          type="button"
+          onClick={() => {
+            handleChangePage(page - 1);
+          }}
+          disabled={page === 1}
+        >
+          <MdNavigateBefore size={16} />
+        </button>
+        <h4>
+          {page} de {data.totalPages}
+        </h4>
+        <button
+          type="button"
+          onClick={() => {
+            handleChangePage(page + 1);
+          }}
+          disabled={page === data.totalPages}
+        >
+          <MdNavigateNext size={16} />
+        </button>
+      </Pagination>
       <ModalAnswer
         id={supportId}
         openModal={openModal}

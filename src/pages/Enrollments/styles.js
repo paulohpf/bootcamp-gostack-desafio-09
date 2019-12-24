@@ -102,3 +102,22 @@ export const List = styled.div`
     }
   }
 `;
+
+export const Pagination = styled.div`
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  padding: 15px;
+
+  button {
+    background: #ee4d64;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+`;

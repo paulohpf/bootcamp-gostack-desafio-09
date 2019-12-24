@@ -2,35 +2,41 @@ import React, { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { debounce } from 'lodash';
-
 import { FiPlus } from 'react-icons/fi';
+import { MdNavigateNext, MdNavigateBefore } from 'react-icons/md';
 import api from '~/services/api';
 
-import { Container, List } from './styles';
+import { Container, List, Pagination } from './styles';
 
-const debouncedGetStudents = debounce(async (setStudents, searchText) => {
-  const response = await api.get('students', { params: { searchText } });
-
-  setStudents(response.data);
-}, 300);
-
-export default function Students(props) {
-  console.tron.log(props);
-
+export default function Students() {
+  const [data, setData] = useState({});
   const [students, setStudents] = useState([]);
   const [searchText, setSearchText] = useState('');
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    console.tron.log(students);
-  }, [students]);
+    const getData = async () => {
+      const response = await api.get('students', {
+        params: { searchText, page },
+      });
 
-  useEffect(() => {
-    debouncedGetStudents(setStudents, searchText);
-  }, [searchText]);
+      const { rows: studentsRows, ...rest } = response.data;
+
+      setStudents(studentsRows);
+      setData(rest);
+    };
+
+    getData();
+  }, [page, searchText]);
 
   const handleOnChange = e => {
     setSearchText(e.target.value);
+  };
+
+  const handleChangePage = value => {
+    if (value >= 1) {
+      setPage(value);
+    }
   };
 
   return (
@@ -78,15 +84,35 @@ export default function Students(props) {
                   <Link className="edit" to={`/student/edit/${student.id}`}>
                     editar
                   </Link>
-                  {/* <Link className="delete" to="/#">
-                    apagar
-                  </Link> */}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </List>
+      <Pagination>
+        <button
+          type="button"
+          onClick={() => {
+            handleChangePage(page - 1);
+          }}
+          disabled={page === 1}
+        >
+          <MdNavigateBefore size={16} />
+        </button>
+        <h4>
+          {page} de {data.totalPages}
+        </h4>
+        <button
+          type="button"
+          onClick={() => {
+            handleChangePage(page + 1);
+          }}
+          disabled={page === data.totalPages}
+        >
+          <MdNavigateNext size={16} />
+        </button>
+      </Pagination>
     </Container>
   );
 }

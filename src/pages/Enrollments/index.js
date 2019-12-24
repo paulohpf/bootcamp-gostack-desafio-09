@@ -5,28 +5,35 @@ import ptBrLocale from 'date-fns/locale/pt-BR';
 
 import { Link } from 'react-router-dom';
 
-import { debounce } from 'lodash';
 import { FiPlus } from 'react-icons/fi';
+import { MdNavigateNext, MdNavigateBefore } from 'react-icons/md';
 import api from '~/services/api';
 
-import { Container, List } from './styles';
-
-const debouncedGetEnrollments = debounce(async setEnrollments => {
-  const response = await api.get('enroll');
-
-  setEnrollments(response.data);
-}, 300);
+import { Container, List, Pagination } from './styles';
 
 export default function Enrollments() {
+  const [data, setData] = useState({});
   const [enrollments, setEnrollments] = useState([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    console.tron.log(enrollments);
-  }, [enrollments]);
+    const getData = async () => {
+      const response = await api.get('enroll', { params: { page } });
 
-  useEffect(() => {
-    debouncedGetEnrollments(setEnrollments);
-  }, []);
+      const { rows: enrollmentsRows, ...rest } = response.data;
+
+      setData(rest);
+      setEnrollments(enrollmentsRows);
+    };
+
+    getData();
+  }, [page]);
+
+  const handleChangePage = value => {
+    if (value >= 1) {
+      setPage(value);
+    }
+  };
 
   return (
     <Container>
@@ -92,6 +99,29 @@ export default function Enrollments() {
           </tbody>
         </table>
       </List>
+      <Pagination>
+        <button
+          type="button"
+          onClick={() => {
+            handleChangePage(page - 1);
+          }}
+          disabled={page === 1}
+        >
+          <MdNavigateBefore size={16} />
+        </button>
+        <h4>
+          {page} de {data.totalPages}
+        </h4>
+        <button
+          type="button"
+          onClick={() => {
+            handleChangePage(page + 1);
+          }}
+          disabled={page === data.totalPages}
+        >
+          <MdNavigateNext size={16} />
+        </button>
+      </Pagination>
     </Container>
   );
 }
