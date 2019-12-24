@@ -9,7 +9,7 @@ export const Container = styled.header`
   padding: 0 30px;
 
   img {
-    max-width: 135px;
+    width: 135px;
   }
 
   .nav {

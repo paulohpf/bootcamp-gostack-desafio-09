@@ -7,7 +7,7 @@ import { signOut } from '~/store/modules/auth/actions';
 import history from '~/services/history';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3333',
+  baseURL: 'http://192.168.10.108:3333',
 });
 
 api.interceptors.response.use(

@@ -59,6 +59,8 @@ export const List = styled.div`
 
       .answer {
         margin-right: 8px;
+        border: none;
+        background: none;
         color: #4d85ee;
       }
     }

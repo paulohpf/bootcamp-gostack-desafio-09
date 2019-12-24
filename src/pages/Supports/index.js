@@ -1,27 +1,38 @@
 import React, { useEffect, useState } from 'react';
 
-import { Link } from 'react-router-dom';
-
-import { debounce } from 'lodash';
 import api from '~/services/api';
 
 import { Container, List } from './styles';
-
-const debouncedGetSupports = debounce(async setSupports => {
-  const response = await api.get('help-orders/notanswered');
-
-  setSupports(response.data);
-}, 300);
+import ModalAnswer from './ModalAnswer/index';
 
 export default function Supports() {
   const [supports, setSupports] = useState([]);
+
+  const [supportId, setSupportId] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+
+  const getData = async () => {
+    const response = await api.get('help-orders/notanswered');
+
+    setSupports(response.data);
+  };
+
+  const editAnswer = async ({ id = null, refresh = false }) => {
+    setOpenModal(!openModal);
+
+    setSupportId(id);
+
+    if (refresh) {
+      getData();
+    }
+  };
 
   useEffect(() => {
     console.tron.log(supports);
   }, [supports]);
 
   useEffect(() => {
-    debouncedGetSupports(setSupports);
+    getData();
   }, []);
 
   return (
@@ -45,18 +56,26 @@ export default function Supports() {
               <tr key={support.id}>
                 <td>{support.student.name}</td>
                 <td className="actions">
-                  <Link
+                  <button
+                    type="button"
                     className="answer"
-                    to={`/support/${support.id}/answer/`}
+                    onClick={() => {
+                      editAnswer({ id: support.id });
+                    }}
                   >
                     responder
-                  </Link>
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </List>
+      <ModalAnswer
+        id={supportId}
+        openModal={openModal}
+        onRequestClose={editAnswer}
+      />
     </Container>
   );
 }
