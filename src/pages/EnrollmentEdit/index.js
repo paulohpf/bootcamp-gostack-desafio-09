@@ -53,8 +53,8 @@ export default function EnrollmentEdit({ match, history }) {
 
       const _studentOptions = [];
       const _planOptions = [];
-
-      students.data.forEach(student =>
+      
+      students.data.rows.forEach(student =>
         _studentOptions.push({
           id: student.id,
           title: student.name,
@@ -63,7 +63,7 @@ export default function EnrollmentEdit({ match, history }) {
 
       setStudentOptions(_studentOptions);
 
-      plans.data.forEach(plan =>
+      plans.data.rows.forEach(plan =>
         _planOptions.push({
           id: plan.id,
           title: plan.title,
