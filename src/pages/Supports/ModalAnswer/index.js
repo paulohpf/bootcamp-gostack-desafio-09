@@ -9,8 +9,6 @@ import api from '~/services/api';
 import { AnswerForm, AnswerTextArea, SendButton } from './styles';
 
 export default function ModalAnswer(props) {
-  console.tron.log('ModalAnswer', props);
-
   const customStyles = {
     overlay: {
       background: 'rgba(0, 0, 0, 0.7)',
@@ -32,8 +30,6 @@ export default function ModalAnswer(props) {
 
   const [modalData, setModalData] = useState({});
 
-  console.tron.log(modalData);
-
   useEffect(() => {
     if (id) {
       const getData = async () => {
@@ -52,8 +48,6 @@ export default function ModalAnswer(props) {
 
   const handleSubmit = async values => {
     try {
-      console.tron.log(values);
-
       await api.put(`/help-orders/${id}`, {
         ...values,
       });

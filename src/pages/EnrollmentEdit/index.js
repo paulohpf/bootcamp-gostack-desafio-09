@@ -36,6 +36,8 @@ export default function EnrollmentEdit({ match, history }) {
   const [planOptions, setPlanOptions] = useState([]);
   const [totalPrice, setTotalPrice] = useState('');
   const [startDate, setStartDate] = useState(new Date());
+
+  const [planId, setPlanId] = useState(null);
   const [planDuration, setPlanDuration] = useState('');
   const [endDate, setEndDate] = useState('');
 
@@ -53,7 +55,7 @@ export default function EnrollmentEdit({ match, history }) {
 
       const _studentOptions = [];
       const _planOptions = [];
-      
+
       students.data.rows.forEach(student =>
         _studentOptions.push({
           id: student.id,
@@ -63,9 +65,10 @@ export default function EnrollmentEdit({ match, history }) {
 
       setStudentOptions(_studentOptions);
 
-      plans.data.rows.forEach(plan =>
+      plans.data.rows.forEach((plan, index) =>
         _planOptions.push({
-          id: plan.id,
+          id: index,
+          plan_id: plan.id,
           title: plan.title,
           price: plan.price,
           duration: plan.duration,
@@ -79,18 +82,28 @@ export default function EnrollmentEdit({ match, history }) {
 
         const { data } = enroll;
 
+        // Data Inicial
         setStartDate(new Date(data.start_date));
-        data.start_date = new Date(data.start_date);
+        data.start_date = new Date(data.start_date); // Preciso fazer isso por causa do DatePicker
 
+        // Data Final
         setEndDate(format(new Date(data.end_date), 'dd/MM/yyyy'));
 
         if (data.plan) {
           setPlanDuration(data.plan.duration);
         } else {
-          setPlanDuration(0);
+          setPlanDuration(null);
         }
 
         setTotalPrice(data.price);
+
+        if (data.plan) {
+          const currentPlan = _planOptions.filter(item => {
+            return item.plan_id === data.plan_id;
+          });
+
+          data.plan_id = String(currentPlan[0].id); // O Select precisa ser String
+        }
 
         setEnrollment(data);
       }
@@ -103,10 +116,15 @@ export default function EnrollmentEdit({ match, history }) {
   }, [params]);
 
   const handleSubmit = data => {
-    console.tron.log(data);
+    const requestData = {
+      student_id: data.student_id,
+      plan_id: planId,
+      start_date: data.start_date,
+    };
+
     if (params.id) {
       api
-        .put(`enroll`, { id: params.id, ...data })
+        .put(`enroll`, { id: params.id, ...requestData })
         .then(() => {
           toast.success('Salvo com sucesso');
           push('/enrollments');
@@ -116,7 +134,7 @@ export default function EnrollmentEdit({ match, history }) {
         });
     } else {
       api
-        .post(`enroll`, { ...data })
+        .post(`enroll`, { ...requestData })
         .then(() => {
           push('/enrollments');
         })
@@ -127,13 +145,15 @@ export default function EnrollmentEdit({ match, history }) {
   };
 
   const onSelectPlan = value => {
-    const { duration, price } = planOptions[value - 1];
+    const { plan_id, duration, price } = planOptions[value];
 
     setPlanDuration(duration);
 
     setTotalPrice(duration * price);
 
     setEndDate(format(addMonths(startDate, duration), 'dd/MM/yyyy'));
+
+    setPlanId(plan_id);
   };
 
   const onSelectDate = value => {
@@ -172,6 +192,7 @@ export default function EnrollmentEdit({ match, history }) {
             name="student_id"
             options={studentOptions}
             placeholder="Buscar aluno"
+            disabled={params.id}
           />
         </span>
         <div>

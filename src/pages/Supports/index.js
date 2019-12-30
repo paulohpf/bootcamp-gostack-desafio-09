@@ -15,7 +15,7 @@ export default function Supports() {
   const [openModal, setOpenModal] = useState(false);
 
   const getData = async () => {
-    const response = await api.get('help-orders/notanswered');
+    const response = await api.get('help-orders/not-answered');
 
     const { rows: supportRows, ...rest } = response.data;
 
@@ -38,10 +38,6 @@ export default function Supports() {
       getData();
     }
   };
-
-  useEffect(() => {
-    console.tron.log(supports);
-  }, [supports]);
 
   useEffect(() => {
     getData();
