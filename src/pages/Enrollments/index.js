@@ -6,7 +6,11 @@ import ptBrLocale from 'date-fns/locale/pt-BR';
 import { Link } from 'react-router-dom';
 
 import { FiPlus } from 'react-icons/fi';
-import { MdNavigateNext, MdNavigateBefore } from 'react-icons/md';
+import {
+  MdNavigateNext,
+  MdNavigateBefore,
+  MdCheckCircle,
+} from 'react-icons/md';
 import api from '~/services/api';
 
 import { Container, List, Pagination } from './styles';
@@ -85,7 +89,13 @@ export default function Enrollments() {
                     locale: ptBrLocale,
                   })}
                 </td>
-                <td>{plan.active ? 'Ativo' : 'Não ativo'}</td>
+                <td>
+                  {plan.active ? (
+                    <MdCheckCircle color="#42cb59" size={20} />
+                  ) : (
+                    <MdCheckCircle color="#dddddd" size={20} />
+                  )}
+                </td>
                 <td className="actions">
                   <Link className="edit" to={`/enrollment/edit/${plan.id}`}>
                     editar

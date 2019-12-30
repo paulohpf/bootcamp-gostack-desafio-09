@@ -87,7 +87,7 @@ export default function Plans() {
               <tr key={plan.id}>
                 <td>{plan.title}</td>
                 <td>{plan.duration}</td>
-                <td>{plan.price}</td>
+                <td>R${plan.price}</td>
                 <td className="actions">
                   <div>
                     <Link className="edit" to={`/plan/edit/${plan.id}`}>
